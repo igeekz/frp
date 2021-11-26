@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+
+  frps:
+    restart: always
+    container_name: frps
+    image: fatedier/frps:v0.38.0
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./frps.ini:/app/frps.ini:ro
+    command:   -c /app/frps.ini
+    ports:
+      - 9870:9870
+      - 7890:7890
+      - 10000:10050
+    environment:
+      - FRP_SERVER_PORT=9870
+      - FRP_SERVER_TOKEN=@#33da@s3$A!~
+      - FRP_ADMIN_PORT=7890
+      - FRP_ADMIN_USER=admin
+      - FRP_ADMIN_PASS=admin@adb.hk
+    # networks:
+    #   - frps
+    logging:
+        driver: "json-file"
+        options:
+          max-size: "1m"
+
+# docker network create frps
+# networks:
+#   frps:
+#     external: true
